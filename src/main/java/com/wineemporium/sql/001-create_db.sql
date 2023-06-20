@@ -1,0 +1,1 @@
+CREATE DATABASE wine_emporium_db;
