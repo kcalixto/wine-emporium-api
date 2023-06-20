@@ -33,10 +33,10 @@ public class User {
     @Column(nullable = false, length = 36)
     private String uuid;
 
-    @Column(nullable = false)
+    @Column
     private OffsetDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column
     private OffsetDateTime updatedAt;
 
     @Column
@@ -61,7 +61,7 @@ public class User {
     private Integer phoneNumber;
 
     @Column(nullable = false)
-    private Integer ipAddress;
+    private String ipAddress;
 
     @OneToMany(mappedBy = "user")
     private Set<UserAddress> userUserAddress;
@@ -80,6 +80,7 @@ public class User {
         this.id = id;
     }
 
+    // TODO make uuid auto-generated
     public String getUuid() {
         return uuid;
     }
@@ -160,11 +161,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getIpAddress() {
+    public String getIpAddress() {
         return ipAddress;
     }
 
-    public void setIpAddress(final Integer ipAddress) {
+    public void setIpAddress(final String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
