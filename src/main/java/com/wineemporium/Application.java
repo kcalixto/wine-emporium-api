@@ -1,13 +1,13 @@
-package com.kcalixto.poc.mysql;
+package com.wineemporium;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MysqlApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MysqlApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
