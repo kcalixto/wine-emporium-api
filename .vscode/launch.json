@@ -6,7 +6,11 @@
             "name": "Application",
             "request": "launch",
             "mainClass": "com.wineemporium.Application",
-            "projectName": "mysql"
+            "projectName": "mysql",
+            "env": {
+                "DB_USER": "",
+                "DB_PASSWORD": "",
+            }
         }
     ]
 }
