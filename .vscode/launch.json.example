@@ -9,7 +9,7 @@
             "projectName": "mysql",
             "env": {
                 "DB_USER": "",
-                "DB_PASSWORD": "",
+                "DB_PASSWORD": ""
             }
         }
     ]
