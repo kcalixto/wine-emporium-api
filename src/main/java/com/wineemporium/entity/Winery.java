@@ -2,20 +2,32 @@ package com.wineemporium.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.SequenceGenerator;
+
 import java.time.OffsetDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Winery {
 
     @Id
-    @Column(nullable = false, updatable = false, length = 36)
+    @Column(nullable = false, updatable = false)
+    @SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1, initialValue = 10000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
+    @JsonIgnore
+    private Integer id;
+
+    @Column(nullable = false, length = 36)
+    @JsonProperty("id")
     private String uuid;
 
     @Column(nullable = false)
@@ -33,15 +45,29 @@ public class Winery {
     @Column(nullable = false, columnDefinition = "text")
     private String description;
 
-    @Column(nullable = false)
-    private Integer country;
+    @OneToMany(mappedBy = "winery")
+    private Set<Wine> wine;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_id")
-    private Wine id;
+    @PrePersist
+    public void prePersist() {
+        this.uuid = java.util.UUID.randomUUID().toString();
+        this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
+        this.active = true;
+    }
 
-    @OneToMany(mappedBy = "id")
-    private Set<Country> idCountrys;
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = OffsetDateTime.now();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUuid() {
         return uuid;
@@ -91,28 +117,12 @@ public class Winery {
         this.description = description;
     }
 
-    public Integer getCountry() {
-        return country;
+    public Set<Wine> getWine() {
+        return wine;
     }
 
-    public void setCountry(final Integer country) {
-        this.country = country;
-    }
-
-    public Wine getId() {
-        return id;
-    }
-
-    public void setId(final Wine id) {
-        this.id = id;
-    }
-
-    public Set<Country> getIdCountrys() {
-        return idCountrys;
-    }
-
-    public void setIdCountrys(final Set<Country> idCountrys) {
-        this.idCountrys = idCountrys;
+    public void setWine(Set<Wine> wine) {
+        this.wine = wine;
     }
 
 }

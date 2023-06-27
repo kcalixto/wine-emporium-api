@@ -2,20 +2,29 @@ package com.wineemporium.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
-import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Country {
 
     @Id
+    @Column(nullable = false, updatable = false)
+    @SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1, initialValue = 10000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
+    @JsonIgnore
+    private Integer id;
+
     @Column(nullable = false, updatable = false, length = 36)
+    @JsonProperty("id")
     private String uuid;
 
     @Column(nullable = false)
@@ -25,17 +34,24 @@ public class Country {
     private OffsetDateTime updatedAt;
 
     @Column
+    @JsonIgnore
     private Boolean active;
 
     @Column(nullable = false, length = 45)
     private String name;
 
-    @OneToMany(mappedBy = "country")
-    private Set<Address> countryAddress;
+    @PrePersist
+    public void prePersist() {
+        this.uuid = java.util.UUID.randomUUID().toString();
+        this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
+        this.active = true;
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_id")
-    private Winery id;
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = OffsetDateTime.now();
+    }
 
     public String getUuid() {
         return uuid;
@@ -77,19 +93,11 @@ public class Country {
         this.name = name;
     }
 
-    public Set<Address> getCountryAddress() {
-        return countryAddress;
-    }
-
-    public void setCountryAddress(final Set<Address> countryAddress) {
-        this.countryAddress = countryAddress;
-    }
-
-    public Winery getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(final Winery id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 

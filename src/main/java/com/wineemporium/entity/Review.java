@@ -8,28 +8,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Review {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @SequenceGenerator(
-            name = "primary_sequence",
-            sequenceName = "primary_sequence",
-            allocationSize = 1,
-            initialValue = 10000
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "primary_sequence"
-    )
+    @SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1, initialValue = 10000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
+    @JsonIgnore
     private Integer id;
 
     @Column(nullable = false, length = 36)
+    @JsonProperty("id")
     private String uuid;
 
     @Column(nullable = false)
@@ -39,6 +37,7 @@ public class Review {
     private OffsetDateTime updatedAt;
 
     @Column
+    @JsonIgnore
     private Boolean active;
 
     @Column(nullable = false)
@@ -48,12 +47,25 @@ public class Review {
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
-    private User owner;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wine_id", nullable = false)
     private Wine wine;
+
+    @PrePersist
+    public void prePersist() {
+        this.uuid = java.util.UUID.randomUUID().toString();
+        this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
+        this.active = true;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = OffsetDateTime.now();
+    }
 
     public Integer getId() {
         return id;
@@ -111,12 +123,12 @@ public class Review {
         this.comment = comment;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(final User owner) {
-        this.owner = owner;
+    public void setUser(final User user) {
+        this.user = user;
     }
 
     public Wine getWine() {

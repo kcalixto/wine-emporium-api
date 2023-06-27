@@ -9,30 +9,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Purchase {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @SequenceGenerator(
-            name = "primary_sequence",
-            sequenceName = "primary_sequence",
-            allocationSize = 1,
-            initialValue = 10000
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "primary_sequence"
-    )
+    @SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1, initialValue = 10000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
+    @JsonIgnore
     private Integer id;
 
     @Column(nullable = false, length = 36)
+    @JsonProperty("id")
     private String uuid;
 
     @Column(nullable = false)
@@ -42,13 +40,14 @@ public class Purchase {
     private OffsetDateTime updatedAt;
 
     @Column
+    @JsonIgnore
     private Boolean active;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "purchase")
-    private Set<PurchaseStatus> purchasePurchaseStatuss;
+    private Set<PurchaseStatus> purchasePurchaseStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -62,7 +61,20 @@ public class Purchase {
     private Set<ItemPurchase> purchaseItemPurchases;
 
     @OneToMany(mappedBy = "purchase")
-    private Set<Uber> purchaseUbers;
+    private Set<Uber> purchaseUber;
+
+    @PrePersist
+    public void prePersist() {
+        this.uuid = java.util.UUID.randomUUID().toString();
+        this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
+        this.active = true;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = OffsetDateTime.now();
+    }
 
     public Integer getId() {
         return id;
@@ -113,11 +125,11 @@ public class Purchase {
     }
 
     public Set<PurchaseStatus> getPurchasePurchaseStatuss() {
-        return purchasePurchaseStatuss;
+        return purchasePurchaseStatus;
     }
 
-    public void setPurchasePurchaseStatuss(final Set<PurchaseStatus> purchasePurchaseStatuss) {
-        this.purchasePurchaseStatuss = purchasePurchaseStatuss;
+    public void setPurchasePurchaseStatuss(final Set<PurchaseStatus> purchasePurchaseStatus) {
+        this.purchasePurchaseStatus = purchasePurchaseStatus;
     }
 
     public User getUser() {
@@ -145,11 +157,11 @@ public class Purchase {
     }
 
     public Set<Uber> getPurchaseUbers() {
-        return purchaseUbers;
+        return purchaseUber;
     }
 
-    public void setPurchaseUbers(final Set<Uber> purchaseUbers) {
-        this.purchaseUbers = purchaseUbers;
+    public void setPurchaseUbers(final Set<Uber> purchaseUber) {
+        this.purchaseUber = purchaseUber;
     }
 
 }

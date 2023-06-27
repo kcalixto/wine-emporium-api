@@ -14,6 +14,9 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -22,9 +25,11 @@ public class User {
     @Column(nullable = false, updatable = false)
     @SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1, initialValue = 10000)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
+    @JsonIgnore
     private Integer id;
 
     @Column(nullable = false, length = 36)
+    @JsonProperty("id")
     private String uuid;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -34,6 +39,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Column
+    @JsonIgnore
     private Boolean active;
 
     @Column(nullable = false, length = 36)
@@ -58,21 +64,20 @@ public class User {
     private String ipAddress;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserAddress> userUserAddress;
+    private Set<UserAddress> userAddress;
 
     @OneToMany(mappedBy = "user")
     private Set<Purchase> userPurchases;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Review> ownerReviews;
+    @OneToMany(mappedBy = "user")
+    private Set<Review> userReviews;
 
     @PrePersist
     public void prePersist() {
+        this.uuid = java.util.UUID.randomUUID().toString();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.active = true;
-
-        this.uuid = java.util.UUID.randomUUID().toString();
     }
 
     @PreUpdate
@@ -177,11 +182,11 @@ public class User {
     }
 
     public Set<UserAddress> getUserUserAddress() {
-        return userUserAddress;
+        return userAddress;
     }
 
-    public void setUserUserAddress(final Set<UserAddress> userUserAddress) {
-        this.userUserAddress = userUserAddress;
+    public void setUserUserAddress(final Set<UserAddress> userAddress) {
+        this.userAddress = userAddress;
     }
 
     public Set<Purchase> getUserPurchases() {
@@ -192,12 +197,12 @@ public class User {
         this.userPurchases = userPurchases;
     }
 
-    public Set<Review> getOwnerReviews() {
-        return ownerReviews;
+    public Set<Review> getUserReviews() {
+        return userReviews;
     }
 
-    public void setOwnerReviews(final Set<Review> ownerReviews) {
-        this.ownerReviews = ownerReviews;
+    public void setUserReviews(final Set<Review> userReviews) {
+        this.userReviews = userReviews;
     }
 
 }
