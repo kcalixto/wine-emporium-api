@@ -10,6 +10,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -54,7 +55,7 @@ public class Address {
     private String complement;
 
     @OneToMany(mappedBy = "address")
-    private UserAddress userAddress;
+    private Set<UserAddress> userAddress;
 
     @PrePersist
     public void prePersist() {
@@ -147,6 +148,14 @@ public class Address {
 
     public void setComplement(final String complement) {
         this.complement = complement;
+    }
+
+    public Set<UserAddress> getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(Set<UserAddress> userAddress) {
+        this.userAddress = userAddress;
     }
 
 }
