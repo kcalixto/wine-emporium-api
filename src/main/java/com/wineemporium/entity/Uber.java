@@ -149,4 +149,19 @@ public class Uber {
         this.purchase = purchase;
     }
 
+    @Override
+    public String toString() {
+        return "Uber{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", driverName='" + driverName + '\'' +
+                ", vehicleModel='" + vehicleModel + '\'' +
+                ", vehicleColor='" + vehicleColor + '\'' +
+                ", vehiclePlate='" + vehiclePlate + '\'' +
+                ", purchase=" + purchase +
+                '}';
+    }
 }

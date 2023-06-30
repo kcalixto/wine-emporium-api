@@ -168,4 +168,38 @@ public class Address {
         this.userAddress = userAddress;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", zipCode='" + zipCode + '\'' +
+                ", number=" + number +
+                ", street='" + street + '\'' +
+                ", neighborhood='" + neighborhood + '\'' +
+                ", complement='" + complement + '\'' +
+                ", state='" + state + '\'' +
+                ", userAddress=" + userAddress +
+                ", country=" + country +
+                '}';
+    }
 }

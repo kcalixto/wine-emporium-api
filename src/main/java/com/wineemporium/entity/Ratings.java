@@ -139,4 +139,18 @@ public class Ratings {
         this.wine = wine;
     }
 
+    @Override
+    public String toString() {
+        return "Ratings{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", value=" + value +
+                ", appraiser='" + appraiser + '\'' +
+                ", quote='" + quote + '\'' +
+                ", wine=" + wine +
+                '}';
+    }
 }

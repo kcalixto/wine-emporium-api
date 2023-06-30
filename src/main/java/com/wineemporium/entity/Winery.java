@@ -125,4 +125,17 @@ public class Winery {
         this.wine = wine;
     }
 
+    @Override
+    public String toString() {
+        return "Winery{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", wine=" + wine +
+                '}';
+    }
 }

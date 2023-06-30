@@ -205,4 +205,24 @@ public class User {
         this.userReviews = userReviews;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", deviceId='" + deviceId + '\'' +
+                ", name='" + name + '\'' +
+                ", document=" + document +
+                ", email='" + email + '\'' +
+                ", phoneDomain=" + phoneDomain +
+                ", phoneNumber=" + phoneNumber +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", userAddress=" + userAddress +
+                ", userPurchases=" + userPurchases +
+                ", userReviews=" + userReviews +
+                '}';
+    }
 }

@@ -124,4 +124,17 @@ public class UserAddress {
         this.userAddressPurchases = userAddressPurchases;
     }
 
+    @Override
+    public String toString() {
+        return "UserAddress{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", user=" + user +
+                ", address=" + address +
+                ", userAddressPurchases=" + userAddressPurchases +
+                '}';
+    }
 }

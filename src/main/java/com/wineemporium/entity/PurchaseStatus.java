@@ -134,4 +134,18 @@ public class PurchaseStatus {
         this.purchase = purchase;
     }
 
+    @Override
+    public String toString() {
+        return "PurchaseStatus{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", deliveryStatus=" + deliveryStatus +
+                ", lastUpdate=" + lastUpdate +
+                ", purchase=" + purchase +
+                '}';
+    }
+
 }

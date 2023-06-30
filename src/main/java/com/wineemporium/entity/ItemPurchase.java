@@ -129,4 +129,17 @@ public class ItemPurchase {
         this.wine = wine;
     }
 
+    @Override
+    public String toString() {
+        return "ItemPurchase{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", purchase=" + purchase +
+                ", item=" + item +
+                ", wine=" + wine +
+                '}';
+    }
 }

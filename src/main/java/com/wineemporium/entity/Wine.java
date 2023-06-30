@@ -200,4 +200,23 @@ public class Wine {
         this.wineReviews = wineReviews;
     }
 
+    @Override
+    public String toString() {
+        return "Wine{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", taste=" + taste +
+                ", age=" + age +
+                ", wineItemPurchases=" + wineItemPurchases +
+                ", wineRatingss=" + wineRatingss +
+                ", wineReviews=" + wineReviews +
+                ", winery=" + winery +
+                '}';
+    }
 }

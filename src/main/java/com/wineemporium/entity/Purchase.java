@@ -164,4 +164,20 @@ public class Purchase {
         this.purchaseUber = purchaseUber;
     }
 
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", amount=" + amount +
+                ", purchasePurchaseStatus=" + purchasePurchaseStatus +
+                ", user=" + user.toString() +
+                ", userAddress=" + userAddress +
+                ", purchaseItemPurchases=" + purchaseItemPurchases +
+                ", purchaseUber=" + purchaseUber +
+                '}';
+    }
 }

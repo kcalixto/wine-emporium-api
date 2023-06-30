@@ -101,4 +101,15 @@ public class Country {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", active=" + active +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
