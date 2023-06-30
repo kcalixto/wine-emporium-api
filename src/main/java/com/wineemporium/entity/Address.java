@@ -2,9 +2,12 @@ package com.wineemporium.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -54,8 +57,15 @@ public class Address {
     @Column(nullable = false)
     private String complement;
 
+    @Column(nullable = false)
+    private String state;
+
     @OneToMany(mappedBy = "address")
     private Set<UserAddress> userAddress;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
 
     @PrePersist
     public void prePersist() {
