@@ -1,4 +1,0 @@
--- This sql script will always run after all other tables
-
--- Fill country table
-INSERT INTO country (active, id, created_at, updated_at, uuid, name) VALUES (true, 1, now(), now(), uuid(), "brazil"), (true, 2, now(), now(), uuid(), "chile"), (true, 3, now(), now(), uuid(), "argentina"), (true, 4, now(), now(), uuid(), "mexico"), (true, 5, now(), now(), uuid(), "colombia"), (true, 6, now(), now(), uuid(), "peru"), (true, 7, now(), now(), uuid(), "costa_rica"), (true, 8, now(), now(), uuid(), "panama"), (true, 9, now(), now(), uuid(), "dominican_republic"), (true, 10, now(), now(), uuid(), "ecuador"), (true, 11, now(), now(), uuid(), "uruguay"), (true, 12, now(), now(), uuid(), "paraguay"), (true, 13, now(), now(), uuid(), "venezuela"), (true, 14, now(), now(), uuid(), "guatemala"), (true, 15, now(), now(), uuid(), "honduras");

@@ -1,26 +1,24 @@
 package com.wineemporium.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wineemporium.entity.enums.TasteEnum;
+import com.wineemporium.utils.Validate;
 
 @Entity
 public class Wine {
@@ -39,6 +37,35 @@ public class Wine {
     @Column(nullable = false)
     private OffsetDateTime createdAt;
 
+    public Wine() {
+    }
+
+    public Wine(String name, String description, BigDecimal price, String taste, Integer age_in_years,
+            List<Winery> winery) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.taste = taste;
+        this.age_in_years = age_in_years;
+        this.winery = winery;
+    }
+
+    public Wine(Integer id, String uuid, OffsetDateTime createdAt, OffsetDateTime updatedAt, Boolean active,
+            String name, String description, BigDecimal price, String taste, Integer age_in_years,
+            List<Winery> winery) {
+        this.id = id;
+        this.uuid = uuid;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.active = active;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.taste = taste;
+        this.age_in_years = age_in_years;
+        this.winery = winery;
+    }
+
     @Column(nullable = false)
     private OffsetDateTime updatedAt;
 
@@ -49,31 +76,21 @@ public class Wine {
     @Column(nullable = false, length = 45)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(columnDefinition = "text")
     private String description;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TasteEnum taste;
+    private String taste;
 
     @Column(nullable = false)
-    private Integer age;
+    private Integer age_in_years;
 
-    @OneToMany(mappedBy = "wine")
-    private Set<ItemPurchase> wineItemPurchases;
-
-    @OneToMany(mappedBy = "wine")
-    private Set<Ratings> wineRatingss;
-
-    @OneToMany(mappedBy = "wine")
-    private Set<Review> wineReviews;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "winery_id", nullable = false)
-    private Winery winery;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "wine_winery", joinColumns = @JoinColumn(name = "wine_id"), inverseJoinColumns = @JoinColumn(name = "winery_id"))
+    private List<Winery> winery;
 
     @PrePersist
     public void prePersist() {
@@ -152,52 +169,28 @@ public class Wine {
         this.price = price;
     }
 
-    public Winery getWinery() {
+    public List<Winery> getWinery() {
         return winery;
     }
 
-    public void setWinery(final Winery winery) {
+    public void setWinery(final List<Winery> winery) {
         this.winery = winery;
     }
 
-    public TasteEnum getTaste() {
+    public String getTaste() {
         return taste;
     }
 
-    public void setTaste(final TasteEnum taste) {
+    public void setTaste(final String taste) {
         this.taste = taste;
     }
 
     public Integer getAge() {
-        return age;
+        return age_in_years;
     }
 
-    public void setAge(final Integer age) {
-        this.age = age;
-    }
-
-    public Set<ItemPurchase> getWineItemPurchases() {
-        return wineItemPurchases;
-    }
-
-    public void setWineItemPurchases(final Set<ItemPurchase> wineItemPurchases) {
-        this.wineItemPurchases = wineItemPurchases;
-    }
-
-    public Set<Ratings> getWineRatingss() {
-        return wineRatingss;
-    }
-
-    public void setWineRatingss(final Set<Ratings> wineRatingss) {
-        this.wineRatingss = wineRatingss;
-    }
-
-    public Set<Review> getWineReviews() {
-        return wineReviews;
-    }
-
-    public void setWineReviews(final Set<Review> wineReviews) {
-        this.wineReviews = wineReviews;
+    public void setAge(final Integer age_in_years) {
+        this.age_in_years = age_in_years;
     }
 
     @Override
@@ -212,11 +205,30 @@ public class Wine {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", taste=" + taste +
-                ", age=" + age +
-                ", wineItemPurchases=" + wineItemPurchases +
-                ", wineRatingss=" + wineRatingss +
-                ", wineReviews=" + wineReviews +
+                ", age_in_years=" + age_in_years +
                 ", winery=" + winery +
                 '}';
+    }
+
+    public Validate validate() {
+        Validate v = new Validate();
+
+        if (this.name == null || this.name.isEmpty()) {
+            v.add("name", "Name must not be empty");
+        }
+        if (this.price == null || this.price.equals(0)) {
+            v.add("price", "Price must be greater than 0");
+        }
+        if (this.taste == null || this.taste.isEmpty()) {
+            v.add("taste", "Taste must not be empty");
+        }
+        if (this.age_in_years == null) {
+            v.add("age", "Age must not be empty");
+        }
+        if (this.winery == null || this.winery.size() == 0) {
+            v.add("winery", "Winery must not be empty");
+        }
+
+        return v;
     }
 }

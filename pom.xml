@@ -9,12 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.wineemporium</groupId>
-	<artifactId>mysql</artifactId>
+	<artifactId>wineemporium</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mysql</name>
-	<description>spring mysql poc</description>
+	<name>wineemporium</name>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>20</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

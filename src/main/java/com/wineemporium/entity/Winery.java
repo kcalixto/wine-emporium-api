@@ -5,13 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 
 import java.time.OffsetDateTime;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,11 +40,26 @@ public class Winery {
     @Column(nullable = false, length = 45)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(columnDefinition = "text")
     private String description;
 
-    @OneToMany(mappedBy = "winery")
-    private Set<Wine> wine;
+    public Winery() {
+    }
+
+    public Winery(Integer id, String uuid, OffsetDateTime createdAt, OffsetDateTime updatedAt, Boolean active,
+            String name, String description) {
+        this.id = id;
+        this.uuid = uuid;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.active = active;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Winery(String name) {
+        this.name = name;
+    }
 
     @PrePersist
     public void prePersist() {
@@ -115,27 +128,5 @@ public class Winery {
 
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    public Set<Wine> getWine() {
-        return wine;
-    }
-
-    public void setWine(Set<Wine> wine) {
-        this.wine = wine;
-    }
-
-    @Override
-    public String toString() {
-        return "Winery{" +
-                "id=" + id +
-                ", uuid='" + uuid + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", active=" + active +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", wine=" + wine +
-                '}';
     }
 }
