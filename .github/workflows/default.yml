@@ -28,4 +28,4 @@ jobs:
             export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
             export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
             
-            sam deploy
+            sam deploy --stack-name wine-emporium --s3-bucket wine-emporium-deploy-bucket --guided
