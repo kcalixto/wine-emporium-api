@@ -15,9 +15,18 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-                - ssm.amazonaws.com
+                - ec2.amazonaws.com
             Action:
-              - 'ssm:GetParameters'
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: !Sub '${AWS::StackName}-lambda-policy'
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
 
   WineEmporiumApiFunction:
     Type: AWS::Serverless::Function 
