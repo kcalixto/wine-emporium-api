@@ -9,16 +9,15 @@ Resources:
   WineEmporiumApiFunctionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: wine-emporium-api-role
-      Policies:
-        - PolicyName: SSMParameterAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - ssm:GetParameter
-                Resource: "*"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ssm.amazonaws.com
+            Action:
+              - 'ssm:GetParameters'
 
   WineEmporiumApiFunction:
     Type: AWS::Serverless::Function 
