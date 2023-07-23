@@ -1,11 +1,11 @@
 version = 0.1
 [default.deploy.parameters]
-stack_name = "wine-emporium"
+stack_name = "wine-emporium-sam"
 resolve_s3 = true
 s3_prefix = "wine-emporium"
 region = "sa-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 disable_rollback = true
-parameter_overrides = "SecurityGroupId=\"\" Subnet1Id=\"\" Subnet2Id=\"\" DatabaseSecretName=\"\" DatabaseEndpoint=\"\""
+parameter_overrides = ""
 image_repositories = []
