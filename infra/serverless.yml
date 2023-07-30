@@ -7,6 +7,12 @@ custom:
     certificateName: wine-emporium-api.toools.space
     hostedZoneNames: wine-emporium-api.toools.space.
 
+  customDomain:
+    certificateName: wine-emporium-api.toools.space
+    domainName: wine-emporium-api.toools.space
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+
 provider:
   name: aws
   stage: prd
@@ -34,3 +40,4 @@ resources:
 
 plugins:
   - serverless-certificate-creator
+  - serverless-domain-manager
