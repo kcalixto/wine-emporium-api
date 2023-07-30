@@ -19,9 +19,6 @@ provider:
   region: sa-east-1
   apiGateway:
     shouldStartNameWithService: true
-    cors:
-      origins:
-        - '*'
 
 resources:
   Resources:
