@@ -17,6 +17,10 @@ provider:
   name: aws
   stage: prd
   region: sa-east-1
+  http:
+    cors: true
+    apiGateway:
+      shouldStartNameWithService: true
 
 resources:
   Resources:
