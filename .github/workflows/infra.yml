@@ -36,6 +36,10 @@ jobs:
       - name: request certificate
         run: |
             sls create-cert --verbose
+        
+      - name: request domain
+        run: |
+          sls create_domain
 
       - name: deploy
         run: |
