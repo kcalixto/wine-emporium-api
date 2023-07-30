@@ -8,6 +8,12 @@ Globals:
     MemorySize: 512
 
 Resources:
+  ApiCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: wine-emporium-api.toools.space
+      ValidationMethod: DNS
+
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -19,7 +25,7 @@ Resources:
       EndpointConfiguration: REGIONAL
       Domain:
         DomainName: wine-emporium-api.toools.space
-        CertificateArn: arn:aws:acm:us-east-1:447988592397:certificate/688f77f1-70a5-4e66-ba75-1dc529e3125b
+        CertificateArn: !Ref ApiCertificate
         Route53:
           HostedZoneName: "toools.space."
 
