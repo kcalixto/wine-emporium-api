@@ -29,3 +29,13 @@ warm_containers = "EAGER"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
+
+[production.deploy.parameters]
+stack_name = "wine-emporium-api"
+resolve_s3 = true
+s3_prefix = "wine-emporium-api"
+region = "sa-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
