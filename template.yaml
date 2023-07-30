@@ -8,23 +8,44 @@ Globals:
     MemorySize: 512
 
 Resources:
-  WineFunction:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: production
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+        AllowCredentials: "'true'"
+      EndpointConfiguration: REGIONAL
+      Domain:
+        DomainName: wine-emporium-api.toools.space
+        CertificateArn: arn:aws:acm:us-east-1:447988592397:certificate/688f77f1-70a5-4e66-ba75-1dc529e3125b
+        Route53:
+          HostedZoneName: "toools.space."
+
+  wineHandler:
     Type: AWS::Serverless::Function 
     Properties:
+      FunctionName: !Sub '${AWS::StackName}-wine-handler'
       CodeUri: WineFunction
       Handler: wine.Handler::handleRequest
       Runtime: java17
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:DeleteItem
+              Resource: "*"
       Architectures:
         - x86_64
       MemorySize: 512
       Events:
-        HttpRequest:
+        Api:
           Type: Api
           Properties:
             Path: /wine/{proxy+}
             Method: ANY
-
-Outputs:
-  ApiGatewayRestApi:
-    Description: "API Gateway endpoint wine emporium"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/"
+            RestApiId: !Ref ApiGatewayApi
