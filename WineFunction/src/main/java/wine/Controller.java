@@ -1,4 +1,4 @@
-package helloworld;
+package wine;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +13,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 
-/**
- * Handler for requests to Lambda function.
- */
-public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class Controller implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
         Map<String, String> headers = new HashMap<>();
@@ -39,9 +36,9 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
         }
     }
 
-    private String getPageContents(String address) throws IOException{
+    private String getPageContents(String address) throws IOException {
         URL url = new URL(address);
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
             return br.lines().collect(Collectors.joining(System.lineSeparator()));
         }
     }
