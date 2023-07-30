@@ -2,3 +2,5 @@ WineFunction/target
 WineFunction/dependency-reduced-pom.xml
 
 .aws-sam
+
+node_modules

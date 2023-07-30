@@ -1,0 +1,36 @@
+service: wine-emporium-api-infra
+
+frameworkVersion: "3"
+
+custom:
+  customCertificate:
+    certificateName: wine-emporium-api.toools.space
+    hostedZoneNames: wine-emporium-api.toools.space.
+
+provider:
+  name: aws
+  stage: prd
+  region: sa-east-1
+
+resources:
+  Resources:
+    WineEmporiumDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: wine-emporium-tb
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+plugins:
+  - serverless-certificate-creator
