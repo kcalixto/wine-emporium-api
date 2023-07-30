@@ -39,7 +39,7 @@ jobs:
         
       - name: request domain
         run: |
-          sls create_domain
+          sls create_domain --verbose
 
       - name: deploy
         run: |
