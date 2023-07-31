@@ -3,4 +3,4 @@ build:
 	sam build
 
 deploy: 
-	sam deploy
+	sam deploy --region sa-east-1
