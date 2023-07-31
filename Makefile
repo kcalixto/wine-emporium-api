@@ -1,6 +1,6 @@
 build:
 	mvn -f WineFunction clean install
-	sam build
+	sam build --config-file samconfig.toml
 
 deploy: 
-	sam deploy --region sa-east-1
+	sam deploy --config-file samconfig.toml
