@@ -1,26 +1,42 @@
 package wine.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.google.gson.Gson;
 
 import wine.entity.Wine;
 
 public class WineController {
 
-    private DynamoDBMapper conn;
+    private DynamoDBMapper mapper;
 
-    public WineController(DynamoDBMapper conn) {
-        this.conn = conn;
+    public WineController(DynamoDBMapper mapper) {
+        this.mapper = mapper;
     }
 
     public String getWines() {
-        PaginatedQueryList<Wine> w = this.conn.query(Wine.class, new DynamoDBQueryExpression<>());
+        try {
+            Map<String, AttributeValue> eav = new HashMap<>();
+            eav.put(":skPrefix", new AttributeValue().withS("WINE#"));
 
-        System.out.print("gotten wines:");
-        w.forEach(wine -> System.out.print(w + " | "));
+            DynamoDBQueryExpression<Wine> queryExpression = new DynamoDBQueryExpression<Wine>()
+                    .withKeyConditionExpression("sortKey BEGINS_WITH :skPrefix")
+                    .withExpressionAttributeValues(eav);
 
-        return new Gson().toJson(w);
+            List<Wine> wines = mapper.query(Wine.class, queryExpression);
+
+            System.out.print("gotten wines:");
+            wines.forEach(wine -> System.out.print(wine + " | "));
+
+            return new Gson().toJson(wines);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "";
+        }
     }
 }

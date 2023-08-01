@@ -14,16 +14,8 @@ public class Wine {
     @DynamoDBRangeKey(attributeName = "sk")
     private String sk;
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "name")
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPk() {
         return pk;
@@ -39,6 +31,14 @@ public class Wine {
 
     public void setSk(String sk) {
         this.sk = sk;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
