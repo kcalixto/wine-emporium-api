@@ -41,7 +41,7 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
-  wineHandler:
+  WineHandler:
     Type: AWS::Serverless::Function 
     Properties:
       FunctionName: !Sub '${AWS::StackName}-wine-handler'
