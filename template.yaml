@@ -49,12 +49,17 @@ Resources:
       Handler: wine.Handler::handleRequest
       Runtime: java17
       Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDBTable
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow
               Action:
+                - dynamodb:Query
+                - dynamodb:Scan
                 - dynamodb:GetItem
                 - dynamodb:PutItem
+                - dynamodb:UpdateItem
                 - dynamodb:DeleteItem
               Resource: "*"
       Architectures:
@@ -64,6 +69,6 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /wine/{proxy+}
+            Path: /wine
             Method: ANY
             RestApiId: !Ref ApiGatewayApi
