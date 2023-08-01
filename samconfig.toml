@@ -5,5 +5,5 @@ resolve_s3 = true
 s3_prefix = "wine-emporium-api"
 region = "sa-east-1"
 capabilities = "CAPABILITY_IAM"
-disable_rollback = true
+disable_rollback = false 
 image_repositories = []
