@@ -130,4 +130,20 @@ public class Wine {
         this.ratings = ratings;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getTasteSlug() {
+        return tasteSlug;
+    }
+
+    public void setTasteSlug(String tasteSlug) {
+        this.tasteSlug = tasteSlug;
+    }
+
 }
