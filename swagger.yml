@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Wine Emporium 
+  description: wine emporium project
+  version: 0.0.1
+
+servers:
+  - url: https://wine-emporium-api.toools.space
+    description: API ULR
+
+paths:
+  /wine:
+    get:
+      summary: "Get all wines"
+      responses:
+        "200":
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllWinesResponse"
+        "400":
+          description: "BadRequest"
+
+components:
+  schemas:
+    GetAllWinesResponse:
+      type: array 
+      items:
+        $ref: "#/components/schemas/wine"
+
+    wine:
+      type: object
+      properties:
+        name:
+          type: string
+          default: "Some Wine Name"
+        slug:
+          type: string
+          default: "wine_slug"
+        price:
+          type: string
+          default: "100.00"
+        country:
+          type: string
+          default: "Some Country Name"
+        countrySlug:
+          type: string
+          default: "flag_brazil"
+        winery:
+          type: string
+          default: "Some Winery Name"
+        winerySlug:
+          type: string
+          default: "winery_slug"
+        taste:
+          type: string
+          default: "Some Taste Name"
+        tasteSlug:
+          type: string
+          default: "taste_slug"
+        age:
+          type: string
+          default: "2017"
